@@ -1,18 +1,37 @@
 import React from "react";
-import { View, StyleSheet, Text, Button, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  Image,
+  TouchableNativeFeedback,
+  Platform
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ProductItem = props => {
+  let TouchableCmpt = TouchableOpacity;
+
+  if (Platform.OS == "android" && Platform.Version >= 21) {
+    TouchableCmpt = TouchableNativeFeedback;
+  }
+
   return (
     <View style={styles.product}>
-      <View style={styles.image}>
-        <Image style={styles.imageUrl} source={{ uri: props.imageUrl }} />
-      </View>
-      <View style={styles.details}>
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.price}>${props.price.toFixed(2)}</Text>
-      </View>
+      <TouchableCmpt onPress={props.onViewDetails}>
+        <View>
+          <View style={styles.image}>
+            <Image style={styles.imageUrl} source={{ uri: props.imageUrl }} />
+          </View>
+          <View style={styles.details}>
+            <Text style={styles.title}>{props.title}</Text>
+            <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+          </View>
+        </View>
+      </TouchableCmpt>
       <View style={styles.action}>
-        <Button title="view details" onPress={props.onViewDetails} />
+        <Button title="View Details" onPress={props.onViewDetails} />
         <Button title="Add To Cart" onPress={props.onAddcart} />
       </View>
     </View>

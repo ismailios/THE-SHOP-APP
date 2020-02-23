@@ -44,10 +44,11 @@ const styles = StyleSheet.create({
     height: 300
   },
   details: {
-    alignItems: "center"
+    alignItems: "center",
+    marginVertical: 15
   },
   description: {
-    marginHorizontal: 15
+    margin: 15
   }
 });
 
