@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
   imageUrl: {
     width: "100%",
     height: 300
+  },
+  details: {
+    alignItems: "center"
+  },
+  description: {
+    marginHorizontal: 15
   }
 });
 

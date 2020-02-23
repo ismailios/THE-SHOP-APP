@@ -42,11 +42,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    marginVertical: 4
+    marginVertical: 4,
+    fontFamily: "Karla-Regular"
   },
   price: {
     fontSize: 16,
-    fontWeight: "bold"
+    fontFamily: "Karla-Bold"
   },
   action: {
     flexDirection: "row",
