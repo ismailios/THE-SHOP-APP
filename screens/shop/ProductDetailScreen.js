@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { ScrollView } from "react-native-gesture-handler";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
 
 const ProductDetailScreen = props => {

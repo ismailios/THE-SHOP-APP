@@ -9,13 +9,6 @@ import * as cartActions from "../../store/actions/cart";
 
 const ProductsOverviewScreen = props => {
   const products = useSelector(state => state.products.availableProducts);
-  const amountPrice = useSelector(state => state.cart.totalAmount);
-
-  useEffect(() => {
-    props.navigation.setParams({
-      amountPrice: amountPrice
-    });
-  }, [amountPrice]);
 
   const dispatch = useDispatch();
 
@@ -45,24 +38,18 @@ const ProductsOverviewScreen = props => {
 };
 
 ProductsOverviewScreen.navigationOptions = navData => {
-  let amountPrice = navData.navigation.getParam("amountPrice");
-  let formattedPrice = 0;
-  if (amountPrice) {
-    formattedPrice = amountPrice.toFixed(2);
-  }
   return {
     headerTitle: "All Products",
-    headerRight: (
-      <View>
-        <Text>${formattedPrice}</Text>
-        <HeaderButtons HeaderButtonComponent={HeaderButton}>
-          <Item
-            title="Cart"
-            iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
-            onPress={() => {}}
-          />
-        </HeaderButtons>
-      </View>
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Cart"
+          iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+          onPress={() => {
+            navData.navigation.navigate("Cart");
+          }}
+        />
+      </HeaderButtons>
     )
   };
 };
