@@ -1,7 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import Colors from "../../constants/Colors";
-import { useSelector } from "react-redux";
+import CartItem from "../../components/shop/CartItem";
+import { useSelector, useDispatch } from "react-redux";
+import * as cartActions from "../../store/actions/cart";
+import { FlatList } from "react-native-gesture-handler";
 
 const CartScreen = () => {
   const totalAmount = useSelector(state => state.cart.totalAmount);
@@ -20,12 +23,14 @@ const CartScreen = () => {
     return tranformedItems;
   });
 
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
         <View style={styles.summeryText}>
           <Text>
-            <Text style={styles.amount}>${totalAmount}</Text>
+            <Text style={styles.amount}>Total :${totalAmount.toFixed(2)}</Text>
           </Text>
           <Button
             color={Colors.accent}
@@ -34,6 +39,20 @@ const CartScreen = () => {
           />
         </View>
       </View>
+      <FlatList
+        data={cartItems}
+        keyExtractor={item => item.productId}
+        renderItem={itemData => (
+          <CartItem
+            title={itemData.item.productTitle}
+            quantity={itemData.item.quantity}
+            price={itemData.item.productPrice}
+            Ondelete={() =>
+              dispatch(cartActions.deleteFromCart(itemData.item.productId))
+            }
+          />
+        )}
+      />
     </View>
   );
 };
