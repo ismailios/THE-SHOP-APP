@@ -4,11 +4,12 @@ import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
 import { useSelector, useDispatch } from "react-redux";
 import * as cartActions from "../../store/actions/cart";
+import * as ordersActions from "../../store/actions/orders";
+
 import { FlatList } from "react-native-gesture-handler";
 
 const CartScreen = () => {
   const totalAmount = useSelector(state => state.cart.totalAmount);
-
   const cartItems = useSelector(state => {
     const tranformedItems = [];
     for (const key in state.cart.items) {
@@ -20,7 +21,7 @@ const CartScreen = () => {
         sum: state.cart.items[key].sum
       });
     }
-    return tranformedItems;
+    return tranformedItems.sort((a, b) => (a.productId > b.productId ? 1 : -1));
   });
 
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ const CartScreen = () => {
             color={Colors.accent}
             title="Order Now"
             disabled={cartItems.length === 0}
+            onPress={() =>
+              dispatch(ordersActions.addOrder(cartItems, totalAmount))
+            }
           />
         </View>
       </View>
