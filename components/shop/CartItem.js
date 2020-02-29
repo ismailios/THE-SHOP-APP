@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -22,9 +22,11 @@ const CartItem = props => {
           <View style={styles.price}>
             <Text style={styles.price}>{props.price}</Text>
           </View>
-          <TouchableOpacity onPress={props.Ondelete}>
-            <Ionicons name="ios-trash" size={32} color="red" />
-          </TouchableOpacity>
+          {props.isDeletable && (
+            <TouchableOpacity onPress={props.Ondelete}>
+              <Ionicons name="ios-trash" size={32} color="red" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </ScrollView>

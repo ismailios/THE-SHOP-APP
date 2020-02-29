@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
@@ -9,6 +9,7 @@ import * as ordersActions from "../../store/actions/orders";
 import { FlatList } from "react-native-gesture-handler";
 
 const CartScreen = () => {
+  const [isDeletable, setIsDeletable] = useState(false);
   const totalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
     const tranformedItems = [];
@@ -51,6 +52,7 @@ const CartScreen = () => {
             title={itemData.item.productTitle}
             quantity={itemData.item.quantity}
             price={itemData.item.productPrice}
+            isDeletable
             Ondelete={() =>
               dispatch(cartActions.deleteFromCart(itemData.item.productId))
             }
