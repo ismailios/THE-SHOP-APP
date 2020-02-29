@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
+import OrderItem from "../../components/shop/OrderItem";
 import { useSelector } from "react-redux";
 
 const OrdersScreen = () => {
@@ -9,7 +10,12 @@ const OrdersScreen = () => {
     <FlatList
       data={orders}
       keyExtractor={item => item.id}
-      renderItem={dataItem => <Text>{dataItem.item.totalAmount}</Text>}
+      renderItem={dataItem => (
+        <OrderItem
+          totalAmount={dataItem.item.totalAmount}
+          date={dataItem.item.date}
+        />
+      )}
     />
   );
 };

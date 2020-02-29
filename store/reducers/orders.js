@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
         new Date().toString(),
         action.orderData.items,
         action.orderData.totalAmount,
-        new Date()
+        new Date().toLocaleDateString()
       );
 
       return {
