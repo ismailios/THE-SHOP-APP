@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
@@ -19,15 +19,19 @@ const EditProductScreen = props => {
     productId ? editedProduct.description : ""
   );
 
-  const submitHandler = () => {
-    console.log("submit");
-  };
+  const dispatch = useDispatch();
+
+  const submitHandler = useCallback(() => {
+    dispatch(
+      productActions.createProduct(title, imageUrl, description, +price)
+    );
+  }, [dispatch, title, price, description, imageUrl]);
 
   useEffect(() => {
     props.navigation.setParams({
       submit: submitHandler
     });
-  }, []);
+  }, [submitHandler]);
 
   return (
     <ScrollView>
