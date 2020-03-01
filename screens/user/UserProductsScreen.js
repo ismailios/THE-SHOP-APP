@@ -8,10 +8,14 @@ import * as productActions from "../../store/actions/products";
 import ProductItem from "../../components/shop/ProductItem";
 import { useSelector, useDispatch } from "react-redux";
 
-const UserProductsScreen = () => {
+const UserProductsScreen = props => {
   const userProducts = useSelector(state => state.products.userProducts);
 
   const dispatch = useDispatch();
+
+  const editProductHandler = id => {
+    props.navigation.navigate("EditProduct", { productId: id });
+  };
 
   return (
     <FlatList
@@ -21,10 +25,12 @@ const UserProductsScreen = () => {
           imageUrl={dataItem.item.imageUrl}
           title={dataItem.item.title}
           price={dataItem.item.price}
-          onViewDetails={() => {}}
-          onAddcart={() => {}}
+          Onselect={() => editProductHandler(dataItem.item.id)}
         >
-          <Button title="Edit" onPress={() => {}} />
+          <Button
+            title="Edit"
+            onPress={() => editProductHandler(dataItem.item.id)}
+          />
           <Button
             title="Delete"
             onPress={() => {
@@ -58,6 +64,17 @@ UserProductsScreen.navigationOptions = navData => {
           iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
           onPress={() => {
             navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Add"
+          iconName={Platform.OS === "android" ? "md-create" : "ios-create"}
+          onPress={() => {
+            navData.navigation.navigate("EditProduct");
           }}
         />
       </HeaderButtons>
