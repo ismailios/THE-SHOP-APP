@@ -11,7 +11,6 @@ const ProductDetailScreen = props => {
   const displayProduct = useSelector(state =>
     state.products.availableProducts.find(prod => prod.id === productId)
   );
-  console.log(displayProduct);
 
   const dispatch = useDispatch();
 

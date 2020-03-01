@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import OrderItem from "../../components/shop/OrderItem";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
