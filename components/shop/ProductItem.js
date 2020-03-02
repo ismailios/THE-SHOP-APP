@@ -9,7 +9,7 @@ import {
   Platform
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import Card from "../UI/Card";
 const ProductItem = props => {
   let TouchableCmpt = TouchableOpacity;
 
@@ -18,7 +18,7 @@ const ProductItem = props => {
   }
 
   return (
-    <View style={styles.product}>
+    <Card style={styles.product}>
       <TouchableCmpt onPress={props.Onselect}>
         <View>
           <View style={styles.image}>
@@ -31,7 +31,7 @@ const ProductItem = props => {
         </View>
       </TouchableCmpt>
       <View style={styles.action}>{props.children}</View>
-    </View>
+    </Card>
   );
 };
 
@@ -39,13 +39,7 @@ const styles = StyleSheet.create({
   product: {
     margin: 15,
     alignContent: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    shadowColor: "#EEE",
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 10,
-    backgroundColor: "#FFF",
-    shadowOpacity: 0.9
+    justifyContent: "center"
   },
   image: { borderRadius: 10, overflow: "hidden" },
   imageUrl: {

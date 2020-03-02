@@ -5,6 +5,7 @@ import CartItem from "../../components/shop/CartItem";
 import { useSelector, useDispatch } from "react-redux";
 import * as cartActions from "../../store/actions/cart";
 import * as ordersActions from "../../store/actions/orders";
+import Card from "../../components/UI/Card";
 
 import { FlatList } from "react-native-gesture-handler";
 
@@ -29,7 +30,7 @@ const CartScreen = () => {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.summary}>
+      <Card style={styles.summary}>
         <View style={styles.summeryText}>
           <Text>
             <Text style={styles.amount}>Total :${totalAmount.toFixed(2)}</Text>
@@ -43,7 +44,7 @@ const CartScreen = () => {
             }
           />
         </View>
-      </View>
+      </Card>
       <FlatList
         data={cartItems}
         keyExtractor={item => item.productId}
@@ -72,13 +73,7 @@ const styles = StyleSheet.create({
   summary: {
     margin: 15,
     alignContent: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    shadowColor: "#EEE",
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 10,
-    backgroundColor: "#FFF",
-    shadowOpacity: 0.9
+    justifyContent: "center"
   },
   summeryText: {
     padding: 10,
