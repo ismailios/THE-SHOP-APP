@@ -22,10 +22,16 @@ const EditProductScreen = props => {
   const dispatch = useDispatch();
 
   const submitHandler = useCallback(() => {
-    dispatch(
-      productActions.createProduct(title, imageUrl, description, +price)
-    );
-  }, [dispatch, title, price, description, imageUrl]);
+    if (productId) {
+      dispatch(
+        productActions.updateProduct(productId, title, imageUrl, description)
+      );
+    } else {
+      dispatch(
+        productActions.createProduct(title, imageUrl, description, +price)
+      );
+    }
+  }, [dispatch, productId, title, price, description, imageUrl]);
 
   useEffect(() => {
     props.navigation.setParams({
