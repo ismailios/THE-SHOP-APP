@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Button } from "react-native";
+import { FlatList, Button, Alert } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 
@@ -15,6 +15,24 @@ const UserProductsScreen = props => {
 
   const editProductHandler = id => {
     props.navigation.navigate("EditProduct", { productId: id });
+  };
+
+  const deleteHandler = id => {
+    Alert.alert(
+      "Delete ",
+      "Delete Product",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => dispatch(productActions.deleteProduct(id))
+        }
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -33,9 +51,7 @@ const UserProductsScreen = props => {
           />
           <Button
             title="Delete"
-            onPress={() => {
-              dispatch(productActions.deleteProduct(dataItem.item.id));
-            }}
+            onPress={() => deleteHandler(dataItem.item.id)}
           />
         </ProductItem>
       )}
