@@ -19,17 +19,19 @@ const formReducer = (state, action) => {
       ...state.inputvalues,
       [action.input]: action.value
     };
+    console.log(state.inputvalues);
 
     const updatedValidities = {
       ...state.inputValidities,
       [action.input]: action.isValid
     };
-
+    console.log(state.inputValidities);
     let updatedFormIsValid = true;
 
     for (const key in updatedValidities) {
       updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
+    console.log(state.formIsValid);
 
     return {
       ...state,
@@ -76,7 +78,7 @@ const EditProductScreen = props => {
   const dispatch = useDispatch();
 
   const submitHandler = useCallback(() => {
-    if (!formState.isValid) {
+    if (!formState.formIsValid) {
       Alert.alert(
         "Error ",
         "Fill The Inputs",
