@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  Alert
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,6 +18,9 @@ const EditProductScreen = props => {
   const editedProduct = products.find(prod => prod.id === productId);
 
   const [title, setTitle] = useState(productId ? editedProduct.title : "");
+
+  const [titleIsValid, setTitleIsValid] = useState(false);
+
   const [imageUrl, setImageUrl] = useState(
     productId ? editedProduct.imageUrl : ""
   );
@@ -22,6 +32,21 @@ const EditProductScreen = props => {
   const dispatch = useDispatch();
 
   const submitHandler = useCallback(() => {
+    if (!titleIsValid) {
+      Alert.alert(
+        "Error ",
+        "Fill The Inputs",
+        [
+          {
+            text: "Cancel",
+            style: "cancel"
+          }
+        ],
+        { cancelable: false }
+      );
+      return;
+    }
+
     if (productId) {
       dispatch(
         productActions.updateProduct(productId, title, imageUrl, description)
@@ -41,6 +66,15 @@ const EditProductScreen = props => {
     });
   }, [submitHandler]);
 
+  const inputChangeHandler = text => {
+    if (text.trim().length === 0) {
+      setTitleIsValid(false);
+    } else {
+      setTitleIsValid(true);
+    }
+    setTitle(text);
+  };
+
   return (
     <ScrollView>
       <View style={styles.form}>
@@ -49,11 +83,12 @@ const EditProductScreen = props => {
           <TextInput
             style={styles.formInput}
             value={title}
-            onChangeText={text => setTitle(text)}
+            onChangeText={inputChangeHandler}
             keyboardType="default"
             autoCapitalize="characters"
           />
         </View>
+        {!titleIsValid && <Text>Please fill the title</Text>}
         <View style={styles.formControl}>
           <Text style={styles.label}>Image Url : </Text>
           <TextInput
