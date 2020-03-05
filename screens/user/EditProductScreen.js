@@ -50,6 +50,8 @@ const EditProductScreen = props => {
             style={styles.formInput}
             value={title}
             onChangeText={text => setTitle(text)}
+            keyboardType="default"
+            autoCapitalize="characters"
           />
         </View>
         <View style={styles.formControl}>
@@ -58,6 +60,7 @@ const EditProductScreen = props => {
             style={styles.formInput}
             value={imageUrl}
             onChangeText={text => setImageUrl(text)}
+            keyboardType="default"
           />
         </View>
         {!productId && (
@@ -67,6 +70,7 @@ const EditProductScreen = props => {
               style={styles.formInput}
               value={price.toString()}
               onChangeText={text => setPrice(text)}
+              keyboardType="decimal-pad"
             />
           </View>
         )}
@@ -76,6 +80,7 @@ const EditProductScreen = props => {
             style={styles.formInput}
             value={description}
             onChangeText={text => setDescription(text)}
+            keyboardType="default"
           />
         </View>
       </View>
