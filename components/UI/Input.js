@@ -1,10 +1,21 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
 const INPUT_CHANGE = "INPUT_CHANGE";
+const INPUT_BLUR = "INPUT_BLUR";
 const inputReducer = (state, action) => {
   switch (action.type) {
     case INPUT_CHANGE:
+      return {
+        ...state,
+        value: action.value,
+        isValid: action.isValid
+      };
+    case INPUT_BLUR:
+      return {
+        ...state,
+        touched: true
+      };
 
     default:
       return state;
@@ -12,7 +23,7 @@ const inputReducer = (state, action) => {
 };
 
 const Input = props => {
-  const [state, dispatch] = useReducer(inputReducer, {
+  const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue ? props.initialValue : "",
     isValid: props.initialyValid,
     touched: false
@@ -40,16 +51,31 @@ const Input = props => {
     dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
   };
 
+  const lostFocusHandler = () => {
+    dispatch({ type: INPUT_BLUR });
+  };
+
+  const { onInputChange, id } = props;
+
+  useEffect(() => {
+    console.log("outside useeffect touched");
+    if (inputState.touched) {
+      console.log("inside useeffect touched");
+      onInputChange(id, inputState.value, inputState.isValid);
+    }
+  }, [inputState, onInputChange, id]);
+
   return (
     <View style={styles.formControl}>
       <Text style={styles.label}>{props.label}</Text>
       <TextInput
         {...props}
         style={styles.formInput}
-        value={formState.inputvalues.title}
+        value={inputState.value}
         onChangeText={text => textChangeHandler(text, "title")}
+        onBlur={lostFocusHandler}
       />
-      {!formState.inputValidities.title && <Text>{props.errorText}</Text>}
+      {!inputState.isValid && <Text>{props.errorText}</Text>}
     </View>
   );
 };

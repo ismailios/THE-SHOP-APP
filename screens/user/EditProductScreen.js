@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from "react";
+import React, { useEffect, useCallback, useReducer } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import HeaderButton from "../../components/UI/HeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as productActions from "../../store/actions/products";
 import Input from "../../components/UI/Input";
+
 const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
 const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
@@ -19,19 +20,19 @@ const formReducer = (state, action) => {
       ...state.inputvalues,
       [action.input]: action.value
     };
-    console.log(state.inputvalues);
+    // console.log(state.inputvalues);
 
     const updatedValidities = {
       ...state.inputValidities,
       [action.input]: action.isValid
     };
-    console.log(state.inputValidities);
+    //console.log(state.inputValidities);
     let updatedFormIsValid = true;
 
     for (const key in updatedValidities) {
       updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
-    console.log(state.formIsValid);
+    // console.log(state.formIsValid);
 
     return {
       ...state,
@@ -64,16 +65,6 @@ const EditProductScreen = props => {
     },
     formIsValid: false
   });
-
-  // const [title, setTitle] = useState(productId ? editedProduct.title : "");
-  // const [titleIsValid, setTitleIsValid] = useState(false);
-  // const [imageUrl, setImageUrl] = useState(
-  //   productId ? editedProduct.imageUrl : ""
-  // );
-  // const [price, setPrice] = useState(productId ? editedProduct.price : "");
-  // const [description, setDescription] = useState(
-  //   productId ? editedProduct.description : ""
-  // );
 
   const dispatch = useDispatch();
 
@@ -124,49 +115,68 @@ const EditProductScreen = props => {
 
   // Function To handle inputs validities , Values ...
 
-  const textChangeHandler = (text, inputIdentifier) => {
-    let isValid = false;
-    if (text.trim().length > 0) {
-      isValid = true;
-    }
-    dispatchFormState({
-      type: FORM_INPUT_UPDATE,
-      value: text,
-      isValid: isValid,
-      input: inputIdentifier
-    });
-  };
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier
+      });
+    },
+    [dispatchFormState]
+  );
 
   return (
     <ScrollView>
       <View style={styles.form}>
         <Input
+          id="title"
           label="Title"
           errorText="Please fill the title"
           keyboardType="default"
           autoCapitalize="characters"
+          onInputChange={inputChangeHandler}
+          initialValue={productId ? editedProduct.title : ""}
+          initialyValid={!!productId}
+          required
         />
 
         <Input
+          id="imageUrl"
           label="Image Url"
           errorText="Please fill the Image Url"
           keyboardType="default"
+          onInputChange={inputChangeHandler}
+          initialValue={productId ? editedProduct.imageUrl : ""}
+          initialyValid={!!productId}
+          required
         />
         {!productId && (
           <Input
+            id="price"
             label="Price"
             errorText="Please fill the price"
             keyboardType="default"
             keyboardType="decimal-pad"
             dataDetectorTypes="phoneNumber"
+            onInputChange={inputChangeHandler}
+            required
+            min={0.1}
           />
         )}
         <Input
+          id="description"
           label="Description"
           errorText="Please fill the Description"
           keyboardType="default"
           multiline
           numberOfLines={3}
+          onInputChange={inputChangeHandler}
+          initialValue={productId ? editedProduct.description : ""}
+          initialyValid={!!productId}
+          required
+          minLength={5}
         />
       </View>
     </ScrollView>
@@ -193,7 +203,7 @@ EditProductScreen.navigationOptions = navData => {
 };
 
 const styles = StyleSheet.create({
-  form: { width: "80%", backgroundColor: "#fff" }
+  form: { width: "100%", backgroundColor: "#fff" }
 });
 
 export default EditProductScreen;
