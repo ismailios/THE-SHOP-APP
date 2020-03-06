@@ -1,11 +1,10 @@
 import React, { useEffect, useCallback, useReducer } from "react";
 import {
   View,
-  Text,
   StyleSheet,
-  TextInput,
   ScrollView,
-  Alert
+  Alert,
+  KeyboardAvoidingView
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
@@ -20,19 +19,17 @@ const formReducer = (state, action) => {
       ...state.inputvalues,
       [action.input]: action.value
     };
-    // console.log(state.inputvalues);
 
     const updatedValidities = {
       ...state.inputValidities,
       [action.input]: action.isValid
     };
-    //console.log(state.inputValidities);
+
     let updatedFormIsValid = true;
 
     for (const key in updatedValidities) {
       updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
-    // console.log(state.formIsValid);
 
     return {
       ...state,
@@ -128,58 +125,64 @@ const EditProductScreen = props => {
   );
 
   return (
-    <ScrollView>
-      <View style={styles.form}>
-        <Input
-          id="title"
-          label="Title"
-          errorText="Please fill the title"
-          keyboardType="default"
-          autoCapitalize="characters"
-          onInputChange={inputChangeHandler}
-          initialValue={productId ? editedProduct.title : ""}
-          initialyValid={!!productId}
-          required
-        />
-
-        <Input
-          id="imageUrl"
-          label="Image Url"
-          errorText="Please fill the Image Url"
-          keyboardType="default"
-          onInputChange={inputChangeHandler}
-          initialValue={productId ? editedProduct.imageUrl : ""}
-          initialyValid={!!productId}
-          required
-        />
-        {!productId && (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior="padding"
+      keyboardVerticalOffset={100}
+    >
+      <ScrollView>
+        <View style={styles.form}>
           <Input
-            id="price"
-            label="Price"
-            errorText="Please fill the price"
+            id="title"
+            label="Title"
+            errorText="Please fill the title"
             keyboardType="default"
-            keyboardType="decimal-pad"
-            dataDetectorTypes="phoneNumber"
+            autoCapitalize="characters"
             onInputChange={inputChangeHandler}
+            initialValue={productId ? editedProduct.title : ""}
+            initialyValid={!!productId}
             required
-            min={0.1}
           />
-        )}
-        <Input
-          id="description"
-          label="Description"
-          errorText="Please fill the Description"
-          keyboardType="default"
-          multiline
-          numberOfLines={3}
-          onInputChange={inputChangeHandler}
-          initialValue={productId ? editedProduct.description : ""}
-          initialyValid={!!productId}
-          required
-          minLength={5}
-        />
-      </View>
-    </ScrollView>
+
+          <Input
+            id="imageUrl"
+            label="Image Url"
+            errorText="Please fill the Image Url"
+            keyboardType="default"
+            onInputChange={inputChangeHandler}
+            initialValue={productId ? editedProduct.imageUrl : ""}
+            initialyValid={!!productId}
+            required
+          />
+          {!productId && (
+            <Input
+              id="price"
+              label="Price"
+              errorText="Please fill the price"
+              keyboardType="default"
+              keyboardType="decimal-pad"
+              dataDetectorTypes="phoneNumber"
+              onInputChange={inputChangeHandler}
+              required
+              min={0.1}
+            />
+          )}
+          <Input
+            id="description"
+            label="Description"
+            errorText="Please fill the Description"
+            keyboardType="default"
+            multiline
+            numberOfLines={3}
+            onInputChange={inputChangeHandler}
+            initialValue={productId ? editedProduct.description : ""}
+            initialyValid={!!productId}
+            required
+            minLength={5}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
