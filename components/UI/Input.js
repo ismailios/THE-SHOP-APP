@@ -58,9 +58,9 @@ const Input = props => {
   const { onInputChange, id } = props;
 
   useEffect(() => {
-    console.log("outside useeffect touched");
+    // console.log("outside useeffect touched");
     if (inputState.touched) {
-      console.log("inside useeffect touched");
+      // console.log("inside useeffect touched");
       onInputChange(id, inputState.value, inputState.isValid);
     }
   }, [inputState, onInputChange, id]);
