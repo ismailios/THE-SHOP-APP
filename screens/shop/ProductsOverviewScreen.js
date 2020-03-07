@@ -15,6 +15,7 @@ import ProductItem from "../../components/shop/ProductItem";
 import * as cartActions from "../../store/actions/cart";
 import * as productActions from "../../store/actions/products";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import Axios from "axios";
 
 const ProductsOverviewScreen = props => {
   const [isloading, setIsLoading] = useState(false);
@@ -24,6 +25,14 @@ const ProductsOverviewScreen = props => {
   const dispatch = useDispatch();
 
   //DATA LOADED
+
+  // useEffect(() => {
+  //   Axios.get(
+  //     "http://localhost:8888/wordpress/wp-json/wp/v2/mandataires/"
+  //   ).then(res => {
+  //     console.log(res.data);
+  //   });
+  // }, []);
 
   const loadedProduct = useCallback(async () => {
     console.log("yes loadedProduct");
