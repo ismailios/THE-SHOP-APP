@@ -10,6 +10,7 @@ export const deleteProduct = productId => {
     Axios.delete(
       `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`
     ).then(res => {
+      //just for test
       console.log(res);
     });
 
@@ -32,6 +33,7 @@ export const fetchData = () => {
       }
 
       const resData = await response.json();
+
       // console.log(resData);
 
       const loadedProducts = [];
@@ -96,13 +98,27 @@ export const createProduct = (title, imageUrl, description, price) => {
 };
 
 export const updateProduct = (productId, title, imageUrl, description) => {
-  return {
-    type: UPDATE_PRODUCT,
-    productId: productId,
-    productData: {
-      title,
-      imageUrl,
-      description
-    }
+  return dispatch => {
+    Axios.patch(
+      `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`,
+      {
+        title,
+        imageUrl,
+        description
+      }
+    ).then(res => {
+      //just for test
+      console.log(res);
+    });
+
+    dispatch({
+      type: UPDATE_PRODUCT,
+      productId: productId,
+      productData: {
+        title,
+        imageUrl,
+        description
+      }
+    });
   };
 };
