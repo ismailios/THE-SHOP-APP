@@ -37,6 +37,18 @@ const ProductsOverviewScreen = props => {
     setIsLoading(false);
   }, [dispatch]);
 
+  //Because Drawer capt in memory don't recreate them
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener(
+      "willFocus",
+      loadedProduct
+    );
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadedProduct]);
+
   useEffect(() => {
     console.log("yes useEffect");
     loadedProduct();

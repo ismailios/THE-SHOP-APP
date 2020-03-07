@@ -1,13 +1,22 @@
 import Product from "../../models/product";
+import Axios from "axios";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const SET_PRODUCT = "SET_PRODUCT";
 
 export const deleteProduct = productId => {
-  return {
-    type: DELETE_PRODUCT,
-    productId: productId
+  return dispatch => {
+    Axios.delete(
+      `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`
+    ).then(res => {
+      console.log(res);
+    });
+
+    dispatch({
+      type: DELETE_PRODUCT,
+      productId: productId
+    });
   };
 };
 
@@ -72,20 +81,6 @@ export const createProduct = (title, imageUrl, description, price) => {
 
     const resData = await response.json();
     console.log(resData);
-
-    // axios
-    //   .post("https://rn-shop-b6d42.firebaseio.com/products.json", {
-    //     title,
-    //     imageUrl,
-    //     description,
-    //     price
-    //   })
-    //   .then(resp => {
-    //     console.log(resp);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
 
     dispatch({
       type: CREATE_PRODUCT,
