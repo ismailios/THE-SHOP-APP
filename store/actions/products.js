@@ -13,32 +13,40 @@ export const deleteProduct = productId => {
 
 export const fetchData = () => {
   return async dispatch => {
-    const response = await fetch(
-      "https://rn-shop-b6d42.firebaseio.com/products.json"
-    );
-
-    const resData = await response.json();
-    //console.log(resData);
-
-    const loadedProducts = [];
-
-    for (const key in resData) {
-      loadedProducts.push(
-        new Product(
-          key,
-          "u1",
-          resData[key].title,
-          resData[key].imageUrl,
-          resData[key].description,
-          resData[key].price
-        )
+    try {
+      const response = await fetch(
+        "https://rn-shop-b6d42.firebaseio.com/products.json"
       );
-    }
 
-    dispatch({
-      type: SET_PRODUCT,
-      products: loadedProducts
-    });
+      if (!response.ok) {
+        throw new error("Something is wrong !!!!");
+      }
+
+      const resData = await response.json();
+      // console.log(resData);
+
+      const loadedProducts = [];
+
+      for (const key in resData) {
+        loadedProducts.push(
+          new Product(
+            key,
+            "u1",
+            resData[key].title,
+            resData[key].imageUrl,
+            resData[key].description,
+            resData[key].price
+          )
+        );
+      }
+      dispatch({
+        type: SET_PRODUCT,
+        products: loadedProducts
+      });
+    } catch (error) {
+      //Traitment
+      throw error;
+    }
   };
 };
 
