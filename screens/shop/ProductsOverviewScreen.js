@@ -19,6 +19,7 @@ import Axios from "axios";
 
 const ProductsOverviewScreen = props => {
   const [isloading, setIsLoading] = useState(false);
+  const [isRefeching, setIsRefeching] = useState(false);
   const [error, setError] = useState();
 
   const products = useSelector(state => state.products.availableProducts);
@@ -36,14 +37,14 @@ const ProductsOverviewScreen = props => {
 
   const loadedProduct = useCallback(async () => {
     // console.log("yes loadedProduct");
-    setIsLoading(true);
+    setIsRefeching(true);
     setError(null);
     try {
       await dispatch(productActions.fetchData());
     } catch (error) {
       setError(error.message);
     }
-    setIsLoading(false);
+    setIsRefeching(false);
   }, [dispatch]);
 
   //Because Drawer capt in memory don't recreate them
@@ -60,7 +61,8 @@ const ProductsOverviewScreen = props => {
 
   useEffect(() => {
     // console.log("yes useEffect");
-    loadedProduct();
+    setIsLoading(true);
+    loadedProduct().then(() => setIsLoading(false));
   }, [dispatch, loadedProduct]);
 
   const selectItemHandler = (id, title) => {
@@ -100,6 +102,8 @@ const ProductsOverviewScreen = props => {
 
   return (
     <FlatList
+      onRefresh={loadedProduct}
+      refreshing={isRefeching}
       data={products}
       keyExtractor={item => item.id}
       renderItem={itemData => (
