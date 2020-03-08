@@ -27,14 +27,6 @@ const ProductsOverviewScreen = props => {
 
   //DATA LOADED
 
-  // useEffect(() => {
-  //   Axios.get(
-  //     "http://localhost:8888/wordpress/wp-json/wp/v2/mandataires/"
-  //   ).then(res => {
-  //     console.log(res.data);
-  //   });
-  // }, []);
-
   const loadedProduct = useCallback(async () => {
     // console.log("yes loadedProduct");
     setIsRefeching(true);

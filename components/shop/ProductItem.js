@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Button,
   Image,
   TouchableNativeFeedback,
   Platform

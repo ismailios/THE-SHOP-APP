@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import CartItem from "../shop/CartItem";
 import Card from "../UI/Card";
 
