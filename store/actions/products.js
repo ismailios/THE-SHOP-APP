@@ -9,10 +9,14 @@ export const deleteProduct = productId => {
   return dispatch => {
     Axios.delete(
       `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`
-    ).then(res => {
-      //just for test
-      console.log(res);
-    });
+    )
+      .then(res => {
+        //just for test
+        //console.log(res);
+      })
+      .catch(err => {
+        throw new error("Something goes wrong");
+      });
 
     dispatch({
       type: DELETE_PRODUCT,
@@ -98,18 +102,23 @@ export const createProduct = (title, imageUrl, description, price) => {
 };
 
 export const updateProduct = (productId, title, imageUrl, description) => {
-  return dispatch => {
-    Axios.patch(
+  return async dispatch => {
+    await Axios.patch(
       `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`,
       {
         title,
         imageUrl,
         description
       }
-    ).then(res => {
-      //just for test
-      console.log(res);
-    });
+    )
+      .then(res => {
+        //just for test
+        console.log(res);
+      })
+      .catch(err => {
+        // console.log(err);
+        throw new error();
+      });
 
     dispatch({
       type: UPDATE_PRODUCT,

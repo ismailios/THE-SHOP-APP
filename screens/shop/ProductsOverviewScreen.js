@@ -35,7 +35,7 @@ const ProductsOverviewScreen = props => {
   // }, []);
 
   const loadedProduct = useCallback(async () => {
-    console.log("yes loadedProduct");
+    // console.log("yes loadedProduct");
     setIsLoading(true);
     setError(null);
     try {
@@ -59,7 +59,7 @@ const ProductsOverviewScreen = props => {
   }, [loadedProduct]);
 
   useEffect(() => {
-    console.log("yes useEffect");
+    // console.log("yes useEffect");
     loadedProduct();
   }, [dispatch, loadedProduct]);
 

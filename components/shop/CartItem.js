@@ -20,7 +20,7 @@ const CartItem = props => {
         </View>
         <View style={styles.rightSide}>
           <View style={styles.price}>
-            <Text style={styles.price}>{props.price}</Text>
+            <Text style={styles.price}>${props.price}</Text>
           </View>
           {props.isDeletable && (
             <TouchableOpacity onPress={props.Ondelete}>
