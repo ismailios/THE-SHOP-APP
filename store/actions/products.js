@@ -86,7 +86,6 @@ export const createProduct = (title, imageUrl, description, price) => {
     );
 
     const resData = await response.json();
-    console.log(resData);
 
     dispatch({
       type: CREATE_PRODUCT,
@@ -113,7 +112,7 @@ export const updateProduct = (productId, title, imageUrl, description) => {
     )
       .then(res => {
         //just for test
-        console.log(res);
+        //console.log(res);
       })
       .catch(err => {
         // console.log(err);
