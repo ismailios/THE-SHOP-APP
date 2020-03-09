@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer, useCallback } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -9,8 +9,79 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Card from "../../components/UI/Card";
 import Input from "../../components/UI/Input";
+import * as authActions from "../../store/actions/auth";
+import { useDispatch } from "react-redux";
+import Colors from "../../constants/Colors";
+
+const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+
+const formReducer = (state, action) => {
+  if (action.type === FORM_INPUT_UPDATE) {
+    const updatedValues = {
+      ...state.inputvalues,
+      [action.input]: action.value
+    };
+
+    const updatedValidities = {
+      ...state.inputValidities,
+      [action.input]: action.isValid
+    };
+
+    let updatedFormIsValid = true;
+
+    for (const key in updatedValidities) {
+      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+    }
+
+    return {
+      ...state,
+      inputvalues: updatedValues,
+      inputValidities: updatedValidities,
+      formIsValid: updatedFormIsValid
+    };
+  }
+
+  return state;
+};
 
 const AuthScreen = () => {
+  const dispatch = useDispatch();
+
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputvalues: {
+      email: "",
+      password: ""
+    },
+    inputValidities: {
+      email: false,
+      password: false
+    },
+    formIsValid: false
+  });
+
+  // Function To handle inputs validities , Values ...
+
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier
+      });
+    },
+    [dispatchFormState]
+  );
+
+  const loginHandler = () => {
+    dispatch(
+      authActions.signUp(
+        formState.inputvalues.email,
+        formState.inputvalues.password
+      )
+    );
+  };
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -31,7 +102,7 @@ const AuthScreen = () => {
               email
               required
               initialValue=""
-              onInputChange={() => {}}
+              onInputChange={inputChangeHandler}
             />
             <Input
               id="password"
@@ -42,13 +113,21 @@ const AuthScreen = () => {
               minLength={5}
               required
               initialValue=""
-              onInputChange={() => {}}
+              onInputChange={inputChangeHandler}
             />
             <View style={styles.btn_container}>
-              <Button title="Login" onPress={() => {}} />
+              <Button
+                title="Login"
+                onPress={loginHandler}
+                color={Colors.primary}
+              />
             </View>
             <View style={styles.btn_container}>
-              <Button title="Switch To signUp" onPress={() => {}} />
+              <Button
+                title="Switch To signUp"
+                color={Colors.primary}
+                onPress={() => {}}
+              />
             </View>
           </ScrollView>
         </Card>
