@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from "react";
+import React, { useReducer, useState, useCallback } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -45,6 +45,7 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = () => {
+  const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useDispatch();
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -74,12 +75,21 @@ const AuthScreen = () => {
   );
 
   const loginHandler = () => {
-    dispatch(
-      authActions.signUp(
-        formState.inputvalues.email,
-        formState.inputvalues.password
-      )
-    );
+    if (isSignUp) {
+      dispatch(
+        authActions.signUp(
+          formState.inputvalues.email,
+          formState.inputvalues.password
+        )
+      );
+    } else {
+      dispatch(
+        authActions.signIn(
+          formState.inputvalues.email,
+          formState.inputvalues.password
+        )
+      );
+    }
   };
 
   return (
@@ -117,16 +127,18 @@ const AuthScreen = () => {
             />
             <View style={styles.btn_container}>
               <Button
-                title="Login"
+                title={isSignUp ? "Enregistrer" : "Connexion"}
                 onPress={loginHandler}
                 color={Colors.primary}
               />
             </View>
             <View style={styles.btn_container}>
               <Button
-                title="Switch To signUp"
+                title={`Swith To ${isSignUp ? "Connexion" : "Enregistrer"}`}
                 color={Colors.primary}
-                onPress={() => {}}
+                onPress={() => {
+                  setIsSignUp(prevState => !prevState);
+                }}
               />
             </View>
           </ScrollView>
