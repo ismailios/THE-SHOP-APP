@@ -75,21 +75,20 @@ const AuthScreen = () => {
   );
 
   const loginHandler = () => {
+    let action;
     if (isSignUp) {
-      dispatch(
-        authActions.signUp(
-          formState.inputvalues.email,
-          formState.inputvalues.password
-        )
+      action = authActions.signUp(
+        formState.inputvalues.email,
+        formState.inputvalues.password
       );
     } else {
-      dispatch(
-        authActions.signIn(
-          formState.inputvalues.email,
-          formState.inputvalues.password
-        )
+      action = authActions.signIn(
+        formState.inputvalues.email,
+        formState.inputvalues.password
       );
     }
+
+    dispatch(action);
   };
 
   return (
