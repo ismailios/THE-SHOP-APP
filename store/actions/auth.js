@@ -19,7 +19,7 @@ export const signUp = (email, password) => {
     );
 
     if (!response.ok) {
-      console.log("error occured !!");
+      throw new Error("Wrong !!");
     }
 
     const resData = await response.json();
@@ -49,7 +49,16 @@ export const signIn = (email, password) => {
     );
 
     if (!response.ok) {
-      console.log("error occured !!");
+      const errorResData = await response.json();
+      console.log(errorResData);
+      let message = "SomeThing is wrong !!";
+      if (errorResData.error.message === "INVALID_EMAIL") {
+        message = "Enter a valid Email";
+      }
+      if (errorResData.error.message === "MISSING_PASSWORD") {
+        message = "Enter a valid Password";
+      }
+      throw new Error(message);
     }
 
     const resData = await response.json();
