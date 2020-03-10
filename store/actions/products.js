@@ -6,9 +6,10 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const SET_PRODUCT = "SET_PRODUCT";
 
 export const deleteProduct = productId => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const token = getState().auth.token;
     Axios.delete(
-      `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`
+      `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json?auth=${token}`
     )
       .then(res => {
         //just for test
@@ -66,11 +67,11 @@ export const fetchData = () => {
 };
 
 export const createProduct = (title, imageUrl, description, price) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     //any async code You want , thanks for Thunk middelware
-
+    const token = getState().auth.token;
     const response = await fetch(
-      "https://rn-shop-b6d42.firebaseio.com/products.json",
+      `https://rn-shop-b6d42.firebaseio.com/products.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -101,9 +102,10 @@ export const createProduct = (title, imageUrl, description, price) => {
 };
 
 export const updateProduct = (productId, title, imageUrl, description) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     await Axios.patch(
-      `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json`,
+      `https://rn-shop-b6d42.firebaseio.com/products/${productId}.json?auth=${token}`,
       {
         title,
         imageUrl,

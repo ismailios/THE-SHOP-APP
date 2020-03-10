@@ -30,7 +30,6 @@ const OrdersScreen = () => {
   return (
     <FlatList
       data={orders}
-      keyExtractor={item => item.id}
       renderItem={dataItem => (
         <OrderItem
           totalAmount={dataItem.item.totalAmount}
