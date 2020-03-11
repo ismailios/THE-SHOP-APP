@@ -29,6 +29,7 @@ export const deleteProduct = productId => {
 export const fetchData = () => {
   return async (dispatch, getState) => {
     const userId = getState().auth.userId;
+    console.log(getState());
     try {
       const response = await fetch(
         "https://rn-shop-b6d42.firebaseio.com/products.json"
@@ -48,7 +49,7 @@ export const fetchData = () => {
         loadedProducts.push(
           new Product(
             key,
-            userId,
+            "u1",
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -57,13 +58,10 @@ export const fetchData = () => {
         );
       }
 
-      const userProducts = loadedProducts.filter(
-        prod => prod.ownerId === userId
-      );
       dispatch({
         type: SET_PRODUCT,
         products: loadedProducts,
-        userProducts: userProducts
+        userProducts: loadedProducts.filter(prod => prod.ownerId === userId)
       });
     } catch (error) {
       //Traitment
@@ -88,7 +86,8 @@ export const createProduct = (title, imageUrl, description, price) => {
           title,
           imageUrl,
           description,
-          price
+          price,
+          ownerId: userId
         })
       }
     );
