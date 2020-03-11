@@ -27,7 +27,8 @@ export const deleteProduct = productId => {
 };
 
 export const fetchData = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       const response = await fetch(
         "https://rn-shop-b6d42.firebaseio.com/products.json"
@@ -47,7 +48,7 @@ export const fetchData = () => {
         loadedProducts.push(
           new Product(
             key,
-            "u1",
+            userId,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -55,9 +56,14 @@ export const fetchData = () => {
           )
         );
       }
+
+      const userProducts = loadedProducts.filter(
+        prod => prod.ownerId === userId
+      );
       dispatch({
         type: SET_PRODUCT,
-        products: loadedProducts
+        products: loadedProducts,
+        userProducts: userProducts
       });
     } catch (error) {
       //Traitment
@@ -70,6 +76,7 @@ export const createProduct = (title, imageUrl, description, price) => {
   return async (dispatch, getState) => {
     //any async code You want , thanks for Thunk middelware
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await fetch(
       `https://rn-shop-b6d42.firebaseio.com/products.json?auth=${token}`,
       {
@@ -95,7 +102,8 @@ export const createProduct = (title, imageUrl, description, price) => {
         title,
         imageUrl,
         description,
-        price
+        price,
+        ownerId: userId
       }
     });
   };
