@@ -1,8 +1,26 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  AsyncStorage
+} from "react-native";
+import Colors from "../constants/Colors";
 
-const StartUpScreen = () => {
-  return <div></div>;
+const StartupScreen = () => {
+  return (
+    <View style={styles.screen}>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </View>
+  );
 };
 
-export default StartUpScreen;
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
+
+export default StartupScreen;
