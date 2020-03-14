@@ -41,7 +41,7 @@ export const signUp = (email, password) => {
       authenticate(
         resData.localId,
         resData.idToken,
-        parseInt(resData.expiresIn * 1000)
+        parseInt(resData.expiresIn) * 1000
       )
     );
 
@@ -89,7 +89,7 @@ export const signIn = (email, password) => {
       authenticate(
         resData.localId,
         resData.idToken,
-        parseInt(resData.expiresIn * 1000)
+        parseInt(resData.expiresIn) * 1000
       )
     );
 
@@ -104,6 +104,7 @@ export const signIn = (email, password) => {
 export const logout = () => {
   clearLogoutTimer();
   AsyncStorage.removeItem("userData");
+
   return {
     type: LOGOUT
   };
@@ -118,7 +119,7 @@ clearLogoutTimer = () => {
 const setLogoutTimer = expirationTime => {
   return dispatch => {
     timer = setTimeout(() => {
-      dispatch(logout);
+      dispatch(logout());
     }, expirationTime / 1000);
   };
 };

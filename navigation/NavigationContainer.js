@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import ShopNavigator from "./ShopNavigator";
 import { useSelector } from "react-redux";
 import { NavigationActions } from "react-navigation";
 
+import ShopNavigator from "./ShopNavigator";
+
 const NavigationContainer = props => {
-  const isAuth = useSelector(state => !!state.auth.token);
   const navRef = useRef();
+  const isAuth = useSelector(state => !!state.auth.token);
 
   useEffect(() => {
     if (!isAuth) {
